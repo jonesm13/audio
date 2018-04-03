@@ -12,5 +12,8 @@
 
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> Load(Load.Command command) => await NoContent(Mediator.Send(command));
+
+        [HttpDelete, Route("{audioId}")]
+        public async Task<IHttpActionResult> Delete([FromUri] Delete.Command command) => await NoContent(Mediator.Send(command));
     }
 }

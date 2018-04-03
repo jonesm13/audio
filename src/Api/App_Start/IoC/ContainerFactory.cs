@@ -2,9 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Reflection;
     using DataModel;
+    using Domain.Adapters;
     using Domain.Pipeline;
+    using Domain.Ports;
     using FluentValidation;
     using MediatR;
     using SimpleInjector;
@@ -41,6 +44,10 @@
             // factories
             result.RegisterInstance(new SingleInstanceFactory(result.GetInstance));
             result.RegisterInstance(new MultiInstanceFactory(result.GetAllInstances));
+
+            // audio store
+            result.Register<IAudioStore>(() => new SqlFileStreamAudioStore(
+                ConfigurationManager.AppSettings["audio:inboxPath"]));
 
             customConfig?.Invoke(result);
 

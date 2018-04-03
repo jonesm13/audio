@@ -74,10 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\SqlFileStreamAudioStore.cs" />
     <Compile Include="Aspects\Pagination\Page.cs" />
     <Compile Include="Aspects\Pagination\PagedRequest.cs" />
     <Compile Include="Aspects\Pagination\PaginatedQueryable.cs" />
     <Compile Include="Aspects\Pagination\PaginationExtensions.cs" />
+    <Compile Include="Features\Audio\Delete.cs" />
     <Compile Include="Features\Audio\Index.cs" />
     <Compile Include="Features\Audio\Load.cs" />
     <Compile Include="Features\Audio\Categories\Add.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Pipeline\CommandResult.cs" />
     <Compile Include="Pipeline\EntityFrameworkCommandHandler.cs" />
     <Compile Include="Pipeline\HandlerDecorator.cs" />
+    <Compile Include="Ports\IAudioStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Audio\Markers\" />
-    <Folder Include="Ports\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
