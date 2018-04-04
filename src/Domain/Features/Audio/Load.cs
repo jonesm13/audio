@@ -36,7 +36,7 @@
             bool Exist(string arg)
             {
                 string fullFilePath = Path.Combine(
-                    ConfigurationManager.AppSettings["audio:inboxPath"],
+                    Settings.Settings.Inbox.InboxFolder,
                     arg);
 
                 return File.Exists(fullFilePath);
@@ -56,7 +56,11 @@
             {
                 Guid id = SequentualGuid.New();
 
-                audioStore.StoreAsync(id, request.FileName);
+                string fullFilePath = Path.Combine(
+                    Settings.Settings.Inbox.InboxFolder,
+                    request.FileName);
+
+                audioStore.StoreAsync(id, fullFilePath);
 
                 Db.Audio.Add(
                     new AudioItem
@@ -73,6 +77,8 @@
                             Id = id,
                             Title = request.Title
                         });
+
+                File.Delete(fullFilePath);
 
                 return Task.FromResult(result);
             }

@@ -11,17 +11,8 @@
 
     public class SqlFileStreamAudioStore : IAudioStore
     {
-        readonly string inboxLocation;
-
-        public SqlFileStreamAudioStore(string inboxLocation)
-        {
-            this.inboxLocation = inboxLocation;
-        }
-
         public Task StoreAsync(Guid id, string filename)
         {
-            string fullFilePath = Path.Combine(inboxLocation, filename);
-
             const string insertSql = @"INSERT INTO AudioFile (Id, [Data])
                     VALUES (@id, 0x00);
 
@@ -63,7 +54,7 @@
                     const int blockSize = 1024 * 512;
 
                     using (FileStream source = new FileStream(
-                        fullFilePath,
+                        filename,
                         FileMode.Open,
                         FileAccess.Read))
                     {

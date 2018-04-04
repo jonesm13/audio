@@ -94,6 +94,7 @@
     <Compile Include="Pipeline\HandlerDecorator.cs" />
     <Compile Include="Ports\IAudioStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

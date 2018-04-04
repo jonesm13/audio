@@ -1,24 +1,36 @@
 ﻿namespace Api
 {
+    using Hangfire;
+    using IoC;
+    using MediatR;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+    using Owin;
+    using SimpleInjector;
+    using SimpleInjector.Integration.WebApi;
+    using SimpleInjector.Lifestyles;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http.Formatting;
     using System.Net.Http.Headers;
     using System.Reflection;
     using System.Web.Http;
-    using IoC;
-    using Owin;
-    using SimpleInjector;
-    using SimpleInjector.Integration.WebApi;
-    using SimpleInjector.Lifestyles;
-    using MediatR;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
     using ApiController = Infrastructure.WebApi.ApiController;
+    using GlobalConfiguration = Hangfire.GlobalConfiguration;
 
-// ReSharper disable once InconsistentNaming
+    // ReSharper disable once InconsistentNaming
     public static class IAppBuilderExtensions
     {
+        public static IAppBuilder UseHangFire(this IAppBuilder app)
+        {
+            GlobalConfiguration.Configuration.UseSqlServerStorage("audio-db");
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
+            return app;
+        }
+
         public static IAppBuilder UseWebApi(this IAppBuilder app)
         {
             HttpConfiguration config = new HttpConfiguration();
