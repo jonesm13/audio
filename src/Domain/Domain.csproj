@@ -79,11 +79,18 @@
     <Compile Include="Aspects\Pagination\PagedRequest.cs" />
     <Compile Include="Aspects\Pagination\PaginatedQueryable.cs" />
     <Compile Include="Aspects\Pagination\PaginationExtensions.cs" />
+    <Compile Include="Features\Audio\Categories\Controller.cs" />
+    <Compile Include="Features\Audio\Categories\Remove.cs" />
     <Compile Include="Features\Audio\Delete.cs" />
+    <Compile Include="Features\Audio\Detail.cs" />
     <Compile Include="Features\Audio\Index.cs" />
     <Compile Include="Features\Audio\Load.cs" />
     <Compile Include="Features\Audio\Categories\Add.cs" />
     <Compile Include="Features\Audio\Controller.cs" />
+    <Compile Include="Features\Audio\Markers\Controller.cs" />
+    <Compile Include="Features\Audio\Markers\Create.cs" />
+    <Compile Include="Features\Audio\Replace.cs" />
+    <Compile Include="Features\Category\Controller.cs" />
     <Compile Include="Features\Category\Create.cs" />
     <Compile Include="Features\Health\Controller.cs" />
     <Compile Include="Features\Health\Get.cs" />
@@ -100,9 +107,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\Audio\Markers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{396F7639-87F3-421D-AE5B-EAB1F945D9D5}</Project>

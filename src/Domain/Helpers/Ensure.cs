@@ -22,7 +22,7 @@
             IsNotNull(value, argumentName);
             IsNotNullOrEmpty(value, argumentName);
 
-            if (value.All(x => x == ' '))
+            if (value.All(char.IsWhiteSpace))
             {
                 throw new ArgumentException($"{argumentName} may not " +
                                             "be all whitespace.");

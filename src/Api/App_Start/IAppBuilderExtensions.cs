@@ -1,5 +1,6 @@
 ﻿namespace Api
 {
+    using System;
     using Hangfire;
     using IoC;
     using MediatR;
@@ -15,12 +16,20 @@
     using System.Net.Http.Headers;
     using System.Reflection;
     using System.Web.Http;
+    using log4net.Config;
     using ApiController = Infrastructure.WebApi.ApiController;
     using GlobalConfiguration = Hangfire.GlobalConfiguration;
 
     // ReSharper disable once InconsistentNaming
     public static class IAppBuilderExtensions
     {
+        public static IAppBuilder UseLog4Net(this IAppBuilder app)
+        {
+            XmlConfigurator.Configure();
+
+            return app;
+        }
+
         public static IAppBuilder UseHangFire(this IAppBuilder app)
         {
             GlobalConfiguration.Configuration.UseSqlServerStorage("audio-db");
@@ -37,7 +46,7 @@
 
             Container container = ContainerFactory.Create(
                 new AsyncScopedLifestyle(),
-                Assemblies.ToList(),
+                DomainAssembly.ToList(),
                 c =>
                 {
                     c.RegisterWebApiControllers(config);
@@ -46,6 +55,19 @@
                     {
                         apiController.Mediator = c.GetInstance<IMediator>();
                     });
+
+                    // notifications
+                    IEnumerable<Type> notificationHandlers = c.GetTypesToRegister(
+                        typeof(INotificationHandler<>),
+                        ProcessAssembly,
+                        new TypesToRegisterOptions
+                        {
+                            IncludeGenericTypeDefinitions = true
+                        });
+
+                    c.RegisterCollection(
+                        typeof(INotificationHandler<>),
+                        notificationHandlers);
                 });
 
             config.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
@@ -74,11 +96,19 @@
             return app;
         }
 
-        static IEnumerable<Assembly> Assemblies
+        static IEnumerable<Assembly> DomainAssembly
         {
             get
             {
                 yield return Assembly.Load("Domain");
+            }
+        }
+
+        static IEnumerable<Assembly> ProcessAssembly
+        {
+            get
+            {
+                yield return Assembly.GetExecutingAssembly();
             }
         }
     }

@@ -4,7 +4,7 @@
     using MediatR;
     using Pipeline;
 
-    public class Add
+    public class Remove
     {
         public class Command : IRequest<CommandResult>
         {

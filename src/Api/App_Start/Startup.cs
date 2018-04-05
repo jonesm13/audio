@@ -8,7 +8,8 @@ namespace Api
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseWebApi()
+            app.UseLog4Net()
+                .UseWebApi()
                 .UseHangFire();
         }
     }
