@@ -92,6 +92,7 @@
     <Compile Include="Features\Audio\Replace.cs" />
     <Compile Include="Features\Category\Controller.cs" />
     <Compile Include="Features\Category\Create.cs" />
+    <Compile Include="Features\Category\Delete.cs" />
     <Compile Include="Features\Health\Controller.cs" />
     <Compile Include="Features\Health\Get.cs" />
     <Compile Include="Helpers\Ensure.cs" />

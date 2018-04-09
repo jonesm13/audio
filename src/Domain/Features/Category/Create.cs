@@ -62,26 +62,12 @@
 
                 foreach (string s in split.Take(split.Length - 1))
                 {
-                    if (parent == null)
-                    {
-                        parent = categories.FirstOrDefault(x =>
-                            x.Name == s &&
-                            x.ParentId == default(Guid?));
-                    }
-                    else
-                    {
-                        parent = categories.FirstOrDefault(x =>
-                            x.Name == s &&
-                            x.ParentId == parent.Id);
-                    }
-
-                    if (parent == null)
-                    {
-                        return false;
-                    }
+                    parent = categories
+                        .FirstOrDefault(x => x.Name == s &&
+                            x.ParentId == parent?.Id);
                 }
 
-                return true;
+                return parent != null;
             }
         }
 
