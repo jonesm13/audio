@@ -56,7 +56,6 @@
                         apiController.Mediator = c.GetInstance<IMediator>();
                     });
 
-                    // notifications
                     IEnumerable<Type> notificationHandlers = c.GetTypesToRegister(
                         typeof(INotificationHandler<>),
                         ProcessAssembly,
