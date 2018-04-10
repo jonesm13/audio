@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioDbContext.cs" />
+    <Compile Include="Entities\Artist.cs" />
+    <Compile Include="Entities\ArtistGroup.cs" />
     <Compile Include="Entities\AudioItem.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\IEntity.cs" />
@@ -63,6 +65,14 @@
     <Compile Include="Migrations\201804031506242_AddingMarkers.cs" />
     <Compile Include="Migrations\201804031506242_AddingMarkers.Designer.cs">
       <DependentUpon>201804031506242_AddingMarkers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804101412148_AddingArtistsAndGroups.cs" />
+    <Compile Include="Migrations\201804101412148_AddingArtistsAndGroups.Designer.cs">
+      <DependentUpon>201804101412148_AddingArtistsAndGroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804101413129_AddingArtistsAndGroups1.cs" />
+    <Compile Include="Migrations\201804101413129_AddingArtistsAndGroups1.Designer.cs">
+      <DependentUpon>201804101413129_AddingArtistsAndGroups1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +90,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804031506242_AddingMarkers.resx">
       <DependentUpon>201804031506242_AddingMarkers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804101412148_AddingArtistsAndGroups.resx">
+      <DependentUpon>201804101412148_AddingArtistsAndGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804101413129_AddingArtistsAndGroups1.resx">
+      <DependentUpon>201804101413129_AddingArtistsAndGroups1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

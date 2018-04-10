@@ -79,6 +79,8 @@
     <Compile Include="Aspects\Pagination\PagedRequest.cs" />
     <Compile Include="Aspects\Pagination\PaginatedQueryable.cs" />
     <Compile Include="Aspects\Pagination\PaginationExtensions.cs" />
+    <Compile Include="Features\ArtistGroup\Create.cs" />
+    <Compile Include="Features\Artist\Controller.cs" />
     <Compile Include="Features\Audio\Categories\Controller.cs" />
     <Compile Include="Features\Audio\Categories\Remove.cs" />
     <Compile Include="Features\Audio\Delete.cs" />

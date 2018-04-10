@@ -40,9 +40,19 @@
                     x.ToTable("AudioCategories")
                         .MapLeftKey("AudioItemId")
                         .MapRightKey("CategoryId"));
+
+            modelBuilder.Entity<Artist>()
+                .HasMany(x => x.Groups)
+                .WithMany(x => x.Members)
+                .Map(
+                    x => x.ToTable("ArtistsArtistGroups")
+                        .MapLeftKey("ArtistId")
+                        .MapRightKey("ArtistGroupId"));
         }
 
         public DbSet<AudioItem> Audio { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<ArtistGroup> ArtistGroups { get; set; }
     }
 }
