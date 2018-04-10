@@ -47,27 +47,20 @@
                     .ToListAsync(cancellationToken);
 
                 string[] split = arg.Split(
-                    new [] { '/' },
+                    new[] {'/'},
                     StringSplitOptions.RemoveEmptyEntries);
 
-                if (split.Length == 1 &&
-                    !categories.Any(x =>
-                        x.Name == split[0] &&
-                        x.ParentId == default(Guid?)))
-                {
-                    return true;
-                }
+                string parentPath = string.Join(
+                    "/",
+                    split.Take(split.Length - 1));
 
-                Category parent = null;
+                Category parentNode = categories.FindNode(
+                    parentPath,
+                    c => c.Id,
+                    c => c.ParentId,
+                    c => c.Name);
 
-                foreach (string s in split.Take(split.Length - 1))
-                {
-                    parent = categories
-                        .FirstOrDefault(x => x.Name == s &&
-                            x.ParentId == parent?.Id);
-                }
-
-                return parent != null;
+                return parentNode != null;
             }
         }
 
@@ -85,33 +78,26 @@
                     .ThenBy(x => x.Name)
                     .ToListAsync();
 
-                string[] split = request.Path.Split(
-                    new [] {'/'},
-                    StringSplitOptions.RemoveEmptyEntries);
+                string[] pathSplit = request
+                    .Path
+                    .Split(new [] { '/' },
+                        StringSplitOptions.RemoveEmptyEntries);
 
-                Category parent = null;
+                string parentPath = string.Join(
+                    "/",
+                    pathSplit.Take(pathSplit.Length - 1));
 
-                foreach (string s in split.Take(split.Length - 1))
-                {
-                    if (parent == null)
-                    {
-                        parent = categories.First(x =>
-                            x.Name == s &&
-                            x.ParentId == default(Guid?));
-                    }
-                    else
-                    {
-                        parent = categories.First(x =>
-                            x.Name == s &&
-                            x.ParentId == parent.Id);
-                    }
-                }
+                Category parent = categories.FindNode(
+                    parentPath,
+                    x => x.Id,
+                    x => x.ParentId,
+                    x => x.Name);
 
                 Db.Categories.Add(new Category
                 {
                     Id = SequentualGuid.New(),
                     ParentId = parent?.Id,
-                    Name = split.Last(),
+                    Name = pathSplit.Last(),
                 });
 
                 return CommandResult.Void;

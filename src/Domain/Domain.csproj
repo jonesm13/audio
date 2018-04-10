@@ -97,6 +97,7 @@
     <Compile Include="Features\Health\Controller.cs" />
     <Compile Include="Features\Health\Get.cs" />
     <Compile Include="Helpers\Ensure.cs" />
+    <Compile Include="Helpers\HierarchyHelpers.cs" />
     <Compile Include="Helpers\SequentualGuid.cs" />
     <Compile Include="Pipeline\CommandResult.cs" />
     <Compile Include="Pipeline\EntityFrameworkCommandHandler.cs" />
