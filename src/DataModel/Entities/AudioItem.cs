@@ -7,8 +7,11 @@
     {
         public AudioItem()
         {
-// ReSharper disable once VirtualMemberCallInConstructor
+// ReSharper disable VirtualMemberCallInConstructor
             Categories = new HashSet<Category>();
+            Markers = new HashSet<Marker>();
+            Artists = new HashSet<Artist>();
+// ReSharper enable VirtualMemberCallInConstructor
         }
 
         public Guid Id { get; set; }
@@ -18,6 +21,7 @@
 
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Marker> Markers { get; set; }
+        public virtual ICollection<Artist> Artists { get; set; }
     }
 
     [Flags]

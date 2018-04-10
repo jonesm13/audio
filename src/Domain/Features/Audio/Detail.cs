@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using DataModel;
     using DataModel.Entities;
+    using FluentValidation;
     using MediatR;
 
     public class Detail
@@ -13,6 +14,23 @@
         public class Query : IRequest<Model>
         {
             public Guid Id { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Query>
+        {
+            readonly AudioDbContext db;
+
+            public Validator(AudioDbContext db)
+            {
+                this.db = db;
+                RuleFor(x => x.Id)
+                    .Must(Exist);
+            }
+
+            bool Exist(Guid arg)
+            {
+                return db.Audio.Any(x => x.Id == arg);
+            }
         }
 
         public class Handler : AsyncRequestHandler<Query, Model>
@@ -47,7 +65,13 @@
         public class Model
         {
             public string Title { get; set; }
+            public ArtistModel[] Artists { get; set; }
             public MarkerModel[] Markers { get; set; }
+        }
+
+        public class ArtistModel
+        {
+            public string Name { get; set; }
         }
 
         public class MarkerModel

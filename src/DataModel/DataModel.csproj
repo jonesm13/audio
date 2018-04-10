@@ -74,6 +74,10 @@
     <Compile Include="Migrations\201804101413129_AddingArtistsAndGroups1.Designer.cs">
       <DependentUpon>201804101413129_AddingArtistsAndGroups1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804101440279_AddingAudioItemArtistAssociation.cs" />
+    <Compile Include="Migrations\201804101440279_AddingAudioItemArtistAssociation.Designer.cs">
+      <DependentUpon>201804101440279_AddingAudioItemArtistAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804101413129_AddingArtistsAndGroups1.resx">
       <DependentUpon>201804101413129_AddingArtistsAndGroups1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804101440279_AddingAudioItemArtistAssociation.resx">
+      <DependentUpon>201804101440279_AddingAudioItemArtistAssociation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
