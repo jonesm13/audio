@@ -54,6 +54,7 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Marker.cs" />
+    <Compile Include="Entities\PlayRestriction.cs" />
     <Compile Include="Migrations\201804030807008_AddingAudioEntity.cs" />
     <Compile Include="Migrations\201804030807008_AddingAudioEntity.Designer.cs">
       <DependentUpon>201804030807008_AddingAudioEntity.cs</DependentUpon>
@@ -77,6 +78,10 @@
     <Compile Include="Migrations\201804101440279_AddingAudioItemArtistAssociation.cs" />
     <Compile Include="Migrations\201804101440279_AddingAudioItemArtistAssociation.Designer.cs">
       <DependentUpon>201804101440279_AddingAudioItemArtistAssociation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804101456524_AddingPlayRestriction.cs" />
+    <Compile Include="Migrations\201804101456524_AddingPlayRestriction.Designer.cs">
+      <DependentUpon>201804101456524_AddingPlayRestriction.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804101440279_AddingAudioItemArtistAssociation.resx">
       <DependentUpon>201804101440279_AddingAudioItemArtistAssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804101456524_AddingPlayRestriction.resx">
+      <DependentUpon>201804101456524_AddingPlayRestriction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

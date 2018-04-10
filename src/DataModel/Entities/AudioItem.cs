@@ -11,6 +11,7 @@
             Categories = new HashSet<Category>();
             Markers = new HashSet<Marker>();
             Artists = new HashSet<Artist>();
+            PlayRestrictions = new HashSet<PlayRestriction>();
 // ReSharper enable VirtualMemberCallInConstructor
         }
 
@@ -22,6 +23,7 @@
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Marker> Markers { get; set; }
         public virtual ICollection<Artist> Artists { get; set; }
+        public virtual ICollection<PlayRestriction> PlayRestrictions { get; set; }
     }
 
     [Flags]
