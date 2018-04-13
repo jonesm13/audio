@@ -111,6 +111,7 @@
                         Id = id,
                         Flags = AudioItemFlags.None,
                         Title = title,
+                        Duration = (int)request.Details.Duration.TotalMilliseconds
                     });
 
                 CommandResult result = CommandResult.Void

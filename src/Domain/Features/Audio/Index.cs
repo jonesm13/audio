@@ -35,10 +35,11 @@
 
                 return await query
                     .OrderBy(x => x.Title)
-                    .Select(x=> new Model
+                    .Select(x => new Model
                     {
                         Id = x.Id,
-                        Title = x.Title
+                        Title = x.Title,
+                        Duration = x.Duration
                     })
                     .InPagesOf(request.PageSize)
                     .ToPageAsync(request.PageNumber);
@@ -49,6 +50,7 @@
         {
             public Guid Id { get; set; }
             public string Title { get; set; }
+            public int Duration { get; set; }
         }
     }
 }
