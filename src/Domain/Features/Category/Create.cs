@@ -50,6 +50,13 @@
                     new[] {'/'},
                     StringSplitOptions.RemoveEmptyEntries);
 
+                if (split.Length == 1)
+                {
+                    return !categories.Any(x =>
+                        x.Name == split[0] &&
+                        x.ParentId == default(Guid?));
+                }
+
                 string parentPath = string.Join(
                     "/",
                     split.Take(split.Length - 1));

@@ -1,7 +1,10 @@
 ﻿namespace Domain.Features.Audio
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using DataModel;
@@ -50,14 +53,38 @@
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator()
+            readonly AudioDbContext db;
+
+            public Validator(AudioDbContext db)
             {
+                this.db = db;
                 CascadeMode = CascadeMode.StopOnFirstFailure;
 
                 RuleFor(x => x.FileName)
                     .Must(Exist)
                     .Must(HaveWavExtension)
                     .Must(BeAcceptableFormat);
+
+                RuleFor(x => x.Categories)
+                    .MustAsync(AllExist);
+            }
+
+            async Task<bool> AllExist(
+                string[] arg,
+                CancellationToken cancellationToken)
+            {
+                if (!arg.Any())
+                {
+                    return true;
+                }
+
+                IEnumerable<Category> cats = await db.Categories
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken);
+
+                return arg
+                    .Select(s => cats.FindNode(s, x => x.Id, x => x.ParentId, x => x.Name))
+                    .All(node => node != null);
             }
 
             bool HaveWavExtension(string arg)
@@ -91,7 +118,7 @@
                 this.audioStore = audioStore;
             }
 
-            protected override Task<CommandResult> HandleImpl(Command request)
+            protected override async Task<CommandResult> HandleImpl(Command request)
             {
                 Guid id = SequentualGuid.New();
 
@@ -99,20 +126,35 @@
                     Settings.Settings.Inbox.InboxFolder,
                     request.FileName);
 
-                audioStore.StoreAsync(id, fullFilePath);
+                await audioStore.StoreAsync(id, fullFilePath);
 
                 string title = string.IsNullOrWhiteSpace(request.Title) ?
                     request.FileName :
                     request.Title;
 
-                Db.Audio.Add(
-                    new AudioItem
+                AudioItem newItem = new AudioItem
+                {
+                    Id = id,
+                    Flags = AudioItemFlags.None,
+                    Title = title,
+                    Duration = (int)request.Details.Duration.TotalMilliseconds,
+                };
+
+                if (request.Categories.Any())
+                {
+                    List<Category> categories = await Db.Categories
+                        .ToListAsync();
+
+                    foreach (string path in request.Categories)
                     {
-                        Id = id,
-                        Flags = AudioItemFlags.None,
-                        Title = title,
-                        Duration = (int)request.Details.Duration.TotalMilliseconds
-                    });
+                        Category cat = categories
+                            .FindNode(path, x => x.Id, x => x.ParentId, x => x.Name);
+
+                        newItem.Categories.Add(cat);
+                    }
+                }
+
+                Db.Audio.Add(newItem);
 
                 CommandResult result = CommandResult.Void
                     .WithNotification(
@@ -124,7 +166,7 @@
 
                 File.Delete(fullFilePath);
 
-                return Task.FromResult(result);
+                return result;
             }
         }
 
