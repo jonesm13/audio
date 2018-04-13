@@ -1,6 +1,5 @@
 ﻿namespace Domain.Features.Artist
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Aspects.Pagination;
@@ -35,7 +34,7 @@
 
                 return await query
                     .OrderBy(x => x.Name)
-                    .Select(x => new Model {Id = x.Id, Name = x.Name})
+                    .Select(x => new Model {Name = x.Name})
                     .InPagesOf(request.PageSize)
                     .ToPageAsync(request.PageNumber);
             }
@@ -43,7 +42,6 @@
 
         public class Model
         {
-            public Guid Id { get; set; }
             public string Name { get; set; }
         }
     }

@@ -84,7 +84,8 @@
     <Compile Include="Features\Artist\Controller.cs" />
     <Compile Include="Features\Artist\Create.cs" />
     <Compile Include="Features\Artist\Index.cs" />
-    <Compile Include="Features\Audio\Artists\AudioArtistController.cs" />
+    <Compile Include="Features\Audio\Artists\Add.cs" />
+    <Compile Include="Features\Audio\Artists\Controller.cs" />
     <Compile Include="Features\Audio\Categories\Controller.cs" />
     <Compile Include="Features\Audio\Categories\Remove.cs" />
     <Compile Include="Features\Audio\Delete.cs" />

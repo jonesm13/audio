@@ -5,7 +5,7 @@
     using ApiController = Infrastructure.WebApi.ApiController;
 
     [RoutePrefix("audio/{id}/categories")]
-    public class Controller : ApiController
+    public class AudioCategoriesController : ApiController
     {
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> Add(Add.Command command) => await NoContent(Mediator.Send(command));
