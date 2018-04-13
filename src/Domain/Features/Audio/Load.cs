@@ -56,9 +56,7 @@
 
                 RuleFor(x => x.FileName)
                     .Must(Exist)
-                    .Must(HaveWavExtension);
-
-                RuleFor(x => x.Details)
+                    .Must(HaveWavExtension)
                     .Must(BeAcceptableFormat);
             }
 
@@ -69,9 +67,9 @@
                     StringComparison.InvariantCultureIgnoreCase);
             }
 
-            bool BeAcceptableFormat(AudioFileDetails details)
+            bool BeAcceptableFormat(Command command, string filename)
             {
-                return details.Format.Equals(AudioFormat.RedBook);
+                return command.Details.Format.Equals(AudioFormat.RedBook);
             }
 
             bool Exist(string arg)
