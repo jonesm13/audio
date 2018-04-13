@@ -83,6 +83,7 @@
     <Compile Include="Features\ArtistGroup\Create.cs" />
     <Compile Include="Features\Artist\Controller.cs" />
     <Compile Include="Features\Artist\Create.cs" />
+    <Compile Include="Features\Artist\Index.cs" />
     <Compile Include="Features\Audio\Artists\AudioArtistController.cs" />
     <Compile Include="Features\Audio\Categories\Controller.cs" />
     <Compile Include="Features\Audio\Categories\Remove.cs" />
