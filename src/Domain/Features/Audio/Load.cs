@@ -1,7 +1,6 @@
 ﻿namespace Domain.Features.Audio
 {
     using System;
-    using System.Configuration;
     using System.IO;
     using System.Threading.Tasks;
     using DataModel;
@@ -23,14 +22,36 @@
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator()
+            readonly IValidateAudioFiles audioFileValidator;
+
+            public Validator(IValidateAudioFiles audioFileValidator)
             {
-                RuleFor(x => x.Title)
-                    .NotNull()
-                    .NotEmpty();
+                this.audioFileValidator = audioFileValidator;
+
+                CascadeMode = CascadeMode.StopOnFirstFailure;
 
                 RuleFor(x => x.FileName)
-                    .Must(Exist);
+                    .Must(Exist)
+                    .Must(HaveWavExtension)
+                    .Must(BeAcceptableFormat);
+            }
+
+            bool HaveWavExtension(string arg)
+            {
+                return arg.EndsWith(
+                    ".wav",
+                    StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            bool BeAcceptableFormat(string arg)
+            {
+                string fullFilePath = Path.Combine(
+                    Settings.Settings.Inbox.InboxFolder,
+                    arg);
+
+                AudioFormat format = audioFileValidator.GetAudioFormat(fullFilePath);
+
+                return format.Equals(AudioFormat.RedBook);
             }
 
             bool Exist(string arg)
@@ -62,12 +83,16 @@
 
                 audioStore.StoreAsync(id, fullFilePath);
 
+                string title = string.IsNullOrWhiteSpace(request.Title) ?
+                    request.FileName :
+                    request.Title;
+
                 Db.Audio.Add(
                     new AudioItem
                     {
                         Id = id,
                         Flags = AudioItemFlags.None,
-                        Title = request.Title
+                        Title = title
                     });
 
                 CommandResult result = CommandResult.Void

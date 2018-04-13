@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using AudioServices.NAudio;
     using DataModel;
     using Domain.Adapters;
     using Domain.Pipeline;
@@ -46,6 +47,9 @@
 
             // audio store
             result.Register<IAudioStore, SqlFileStreamAudioStore>();
+
+            // audio validator
+            result.Register<IValidateAudioFiles, NAudioValidator>();
 
             customConfig?.Invoke(result);
 

@@ -16,6 +16,7 @@
     using System.Net.Http.Headers;
     using System.Reflection;
     using System.Web.Http;
+    using System.Web.Http.ExceptionHandling;
     using log4net.Config;
     using ApiController = Infrastructure.WebApi.ApiController;
     using GlobalConfiguration = Hangfire.GlobalConfiguration;
@@ -89,6 +90,8 @@
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 NullValueHandling = NullValueHandling.Ignore
             };
+
+            config.Services.Replace(typeof(IExceptionHandler), new CustomExceptionHandler());
 
             app.UseWebApi(config);
 

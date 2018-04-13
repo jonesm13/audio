@@ -134,6 +134,7 @@
     <Compile Include="App_Start\IoC\ContainerFactory.cs" />
     <Compile Include="App_Start\IAppBuilderExtensions.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="CustomExceptionHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,6 +154,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AudioServices.NAudio\AudioServices.NAudio.csproj">
+      <Project>{01414C17-C742-4177-AFB3-3A7D56CB800F}</Project>
+      <Name>AudioServices.NAudio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{396F7639-87F3-421D-AE5B-EAB1F945D9D5}</Project>
       <Name>DataModel</Name>
