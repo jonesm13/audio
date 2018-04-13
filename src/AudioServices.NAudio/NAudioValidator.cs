@@ -1,26 +1,38 @@
 ﻿namespace AudioServices.NAudio
 {
-    using System.IO;
+    using System;
     using Domain.Ports;
     using global::NAudio.Wave;
 
-    public class NAudioValidator : IValidateAudioFiles
+    public class NAudioValidator : IExamineAudioFiles
     {
-        public AudioFormat GetAudioFormat(string filename)
+        public AudioFileDetails GetAudioFileDetails(string filename)
         {
-            using (WaveFileReader reader = new WaveFileReader(filename))
+            AudioFormat format = AudioFormat.Unknown;
+            TimeSpan duration;
+
+            try
             {
-                if (reader.WaveFormat.SampleRate == 44100 &&
-                    reader.WaveFormat.BitsPerSample == 16 &&
-                    reader.WaveFormat.Encoding == WaveFormatEncoding.Pcm &&
-                    reader.WaveFormat.Channels == 2 &&
-                    reader.WaveFormat.BlockAlign == 4)
+                using (WaveFileReader reader = new WaveFileReader(filename))
                 {
-                    return AudioFormat.RedBook;
+                    if (reader.WaveFormat.SampleRate == 44100 &&
+                        reader.WaveFormat.BitsPerSample == 16 &&
+                        reader.WaveFormat.Encoding == WaveFormatEncoding.Pcm &&
+                        reader.WaveFormat.Channels == 2 &&
+                        reader.WaveFormat.BlockAlign == 4)
+                    {
+                        format = AudioFormat.RedBook;
+                    }
+
+                    duration = reader.TotalTime;
                 }
             }
+            catch (FormatException)
+            {
+                return new AudioFileDetails(AudioFormat.Unknown, TimeSpan.Zero);
+            }
 
-            return AudioFormat.Unknown;
+            return new AudioFileDetails(format, duration);
         }
     }
 }

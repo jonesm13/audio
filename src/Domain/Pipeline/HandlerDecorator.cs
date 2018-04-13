@@ -7,6 +7,7 @@
     using FluentValidation;
     using FluentValidation.Results;
     using MediatR;
+    using MediatR.Pipeline;
 
     public class HandlerDecorator<TRequest, TResponse> :
         IRequestHandler<TRequest, TResponse>
@@ -14,15 +15,18 @@
     {
         readonly IRequestHandler<TRequest, TResponse> inner;
         readonly IEnumerable<IValidator<TRequest>> validators;
+        readonly IEnumerable<IRequestPreProcessor<TRequest>> preProcessors;
         readonly IMediator mediator;
 
         public HandlerDecorator(
             IRequestHandler<TRequest, TResponse> inner,
             IEnumerable<IValidator<TRequest>> validators,
+            IEnumerable<IRequestPreProcessor<TRequest>> preProcessors,
             IMediator mediator)
         {
             this.inner = inner;
             this.validators = validators;
+            this.preProcessors = preProcessors;
             this.mediator = mediator;
         }
 
@@ -30,6 +34,11 @@
             TRequest request,
             CancellationToken cancellationToken)
         {
+            foreach (IRequestPreProcessor<TRequest> preProcessor in preProcessors)
+            {
+                await preProcessor.Process(request, cancellationToken);
+            }
+
             ValidationContext context = new ValidationContext(request);
 
             List<ValidationFailure> failures = validators

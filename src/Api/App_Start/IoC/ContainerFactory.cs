@@ -10,6 +10,7 @@
     using Domain.Ports;
     using FluentValidation;
     using MediatR;
+    using MediatR.Pipeline;
     using SimpleInjector;
 
     public class ContainerFactory
@@ -33,6 +34,8 @@
             result.Register(typeof(IRequestHandler<,>), assemblies);
             result.Register(typeof(INotificationHandler<>), assemblies);
 
+            result.RegisterCollection(typeof(IRequestPreProcessor<>), assemblies);
+
             // pipelines
             result.RegisterCollection(typeof(IPipelineBehavior<,>), assemblies);
 
@@ -49,7 +52,7 @@
             result.Register<IAudioStore, SqlFileStreamAudioStore>();
 
             // audio validator
-            result.Register<IValidateAudioFiles, NAudioValidator>();
+            result.Register<IExamineAudioFiles, NAudioValidator>();
 
             customConfig?.Invoke(result);
 

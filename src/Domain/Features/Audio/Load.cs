@@ -2,12 +2,15 @@
 {
     using System;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using DataModel;
     using DataModel.Entities;
     using FluentValidation;
     using Helpers;
     using MediatR;
+    using MediatR.Pipeline;
+    using Newtonsoft.Json;
     using Pipeline;
     using Ports;
 
@@ -18,21 +21,44 @@
             public string FileName { get; set; }
             public string Title { get; set; }
             public string[] Categories { get; set; }
+            [JsonIgnore]
+            [JsonProperty(Required = Required.Default)]
+            public AudioFileDetails Details { get; set; }
+        }
+
+        public class PreRequest : IRequestPreProcessor<Command>
+        {
+            readonly IExamineAudioFiles audioFileValidator;
+
+            public PreRequest(IExamineAudioFiles audioFileValidator)
+            {
+                this.audioFileValidator = audioFileValidator;
+            }
+
+            public Task Process(Command request, CancellationToken cancellationToken)
+            {
+                string fullFilePath = Path.Combine(
+                    Settings.Settings.Inbox.InboxFolder,
+                    request.FileName);
+
+                request.Details = audioFileValidator.GetAudioFileDetails(
+                    fullFilePath);
+
+                return Task.CompletedTask;
+            }
         }
 
         public class Validator : AbstractValidator<Command>
         {
-            readonly IValidateAudioFiles audioFileValidator;
-
-            public Validator(IValidateAudioFiles audioFileValidator)
+            public Validator()
             {
-                this.audioFileValidator = audioFileValidator;
-
                 CascadeMode = CascadeMode.StopOnFirstFailure;
 
                 RuleFor(x => x.FileName)
                     .Must(Exist)
-                    .Must(HaveWavExtension)
+                    .Must(HaveWavExtension);
+
+                RuleFor(x => x.Details)
                     .Must(BeAcceptableFormat);
             }
 
@@ -43,15 +69,9 @@
                     StringComparison.InvariantCultureIgnoreCase);
             }
 
-            bool BeAcceptableFormat(string arg)
+            bool BeAcceptableFormat(AudioFileDetails details)
             {
-                string fullFilePath = Path.Combine(
-                    Settings.Settings.Inbox.InboxFolder,
-                    arg);
-
-                AudioFormat format = audioFileValidator.GetAudioFormat(fullFilePath);
-
-                return format.Equals(AudioFormat.RedBook);
+                return details.Format.Equals(AudioFormat.RedBook);
             }
 
             bool Exist(string arg)
@@ -92,7 +112,7 @@
                     {
                         Id = id,
                         Flags = AudioItemFlags.None,
-                        Title = title
+                        Title = title,
                     });
 
                 CommandResult result = CommandResult.Void

@@ -1,8 +1,22 @@
 ﻿namespace Domain.Ports
 {
-    public interface IValidateAudioFiles
+    using System;
+
+    public interface IExamineAudioFiles
     {
-        AudioFormat GetAudioFormat(string filename);
+        AudioFileDetails GetAudioFileDetails(string filename);
+    }
+
+    public class AudioFileDetails
+    {
+        public AudioFormat Format { get; }
+        public TimeSpan Duration { get; }
+
+        public AudioFileDetails(AudioFormat format, TimeSpan duration)
+        {
+            Format = format;
+            Duration = duration;
+        }
     }
 
     public class AudioFormat
