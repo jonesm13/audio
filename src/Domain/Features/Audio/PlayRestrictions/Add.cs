@@ -29,12 +29,20 @@
                     .Must(NotBeMoreThanNumberOfMinutesInADay);
 
                 RuleFor(x => x.Days)
-                    .Must(AllBeDaysOfWeek);
+                    .Must(AllBeDaysOfWeek)
+                    .Must(AllBeDistinct);
+            }
+
+            bool AllBeDistinct(string[] arg)
+            {
+                return arg.Distinct().Count() == arg.Length;
             }
 
             bool AllBeDaysOfWeek(string[] arg)
             {
-                return true; // TODO
+                string[] daysOfWeek = Enum.GetNames(typeof(DayOfTheWeek));
+
+                return arg.All(x => daysOfWeek.Any(y => y.Equals(x, StringComparison.InvariantCultureIgnoreCase)));
             }
 
             bool BeGreaterThanStart(Command arg1, int arg2)

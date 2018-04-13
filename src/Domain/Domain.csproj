@@ -97,6 +97,8 @@
     <Compile Include="Features\Audio\Markers\Controller.cs" />
     <Compile Include="Features\Audio\Markers\Create.cs" />
     <Compile Include="Features\Audio\PlayRestrictions\Add.cs" />
+    <Compile Include="Features\Audio\PlayRestrictions\Controller.cs" />
+    <Compile Include="Features\Audio\PlayRestrictions\Remove.cs" />
     <Compile Include="Features\Audio\Replace.cs" />
     <Compile Include="Features\Category\Controller.cs" />
     <Compile Include="Features\Category\Create.cs" />
