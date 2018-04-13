@@ -8,7 +8,7 @@
     public class CategoryController : ApiController
     {
         [HttpGet, Route("")]
-        public async Task<IHttpActionResult> Index(Index.Query query) => await Ok(Mediator.Send(query));
+        public async Task<IHttpActionResult> Index(Index.Query query) => await Ok(Mediator.Send(query ?? new Index.Query()));
 
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> Create([FromBody] Create.Command command) => await NoContent(Mediator.Send(command));
