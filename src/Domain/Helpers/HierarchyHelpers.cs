@@ -3,9 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DataModel.Entities;
 
     public static class HierarchyHelpers
     {
+        public static Category FindNode(
+            this IEnumerable<Category> categories,
+            string path)
+        {
+            return categories.FindNode(path, x => x.Id, x => x.ParentId,
+                x => x.Name);
+        }
+
         public static T FindNode<T, TKey>(
             this IEnumerable<T> collection,
             string path,
