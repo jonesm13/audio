@@ -82,6 +82,7 @@
     <Compile Include="Aspects\Pagination\PagedRequest.cs" />
     <Compile Include="Aspects\Pagination\PaginatedQueryable.cs" />
     <Compile Include="Aspects\Pagination\PaginationExtensions.cs" />
+    <Compile Include="Features\ArtistGroup\Add.cs" />
     <Compile Include="Features\ArtistGroup\Controller.cs" />
     <Compile Include="Features\ArtistGroup\Create.cs" />
     <Compile Include="Features\ArtistGroup\Detail.cs" />

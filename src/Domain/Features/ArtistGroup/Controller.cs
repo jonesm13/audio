@@ -15,5 +15,8 @@
 
         [HttpPost, Route("")]
         public async Task<IHttpActionResult> Create(Create.Command command) => await NoContent(Mediator.Send(command));
+
+        [HttpPost, Route("{name}/artists")]
+        public async Task<IHttpActionResult> Add(Add.Command command) => await NoContent(Mediator.Send(command));
     }
 }
