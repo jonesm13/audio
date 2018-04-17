@@ -3,10 +3,12 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using DataModel;
     using DataModel.Entities;
     using FluentValidation;
+    using Helpers;
     using MediatR;
 
     public class Detail
@@ -23,8 +25,10 @@
             public Validator(AudioDbContext db)
             {
                 this.db = db;
+
                 RuleFor(x => x.Id)
-                    .Must(Exist);
+                    .Must(Exist)
+                    .WithHttpStatusCode(HttpStatusCode.NotFound);
             }
 
             bool Exist(Guid arg)

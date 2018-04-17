@@ -2,9 +2,14 @@
 {
     using System;
     using System.Data.Entity;
+    using System.Linq;
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
     using DataModel;
     using DataModel.Entities;
+    using FluentValidation;
+    using Helpers;
     using MediatR;
     using Pipeline;
     using Ports;
@@ -14,6 +19,25 @@
         public class Command : IRequest<CommandResult>
         {
             public Guid AudioId { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            readonly AudioDbContext db;
+
+            public Validator(AudioDbContext db)
+            {
+                this.db = db;
+
+                RuleFor(x => x.AudioId)
+                    .Must(Exist)
+                    .WithHttpStatusCode(HttpStatusCode.NotFound);
+            }
+
+            bool Exist(Guid arg)
+            {
+                return db.Audio.Any(x => x.Id == arg);
+            }
         }
 
         public class Handler : EntityFrameworkCommandHandler<Command, CommandResult>
