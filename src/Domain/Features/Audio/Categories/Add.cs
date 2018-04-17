@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using DataModel;
     using DataModel.Entities;
@@ -29,10 +30,12 @@
                 this.db = db;
 
                 RuleFor(x => x.Id)
-                    .Must(AudioItemExist);
+                    .Must(AudioItemExist)
+                    .WithHttpStatusCode(HttpStatusCode.NotFound);
 
                 RuleFor(x => x.Category)
-                    .Must(CategoryExist);
+                    .Must(CategoryExist)
+                    .WithHttpStatusCode(HttpStatusCode.NotFound);
             }
 
             bool CategoryExist(string arg)

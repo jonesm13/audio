@@ -2,9 +2,13 @@
 {
     using System;
     using System.Data.Entity;
+    using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using DataModel;
     using DataModel.Entities;
+    using FluentValidation;
+    using Helpers;
     using MediatR;
     using Pipeline;
 
@@ -14,6 +18,25 @@
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            readonly AudioDbContext db;
+
+            public Validator(AudioDbContext db)
+            {
+                this.db = db;
+
+                RuleFor(x => x.Name)
+                    .Must(Exist)
+                    .WithHttpStatusCode(HttpStatusCode.NotFound);
+            }
+
+            bool Exist(string arg)
+            {
+                return db.Artists.Any(x => x.Name.Equals(arg));
+            }
         }
 
         public class Handler : EntityFrameworkCommandHandler<Command, CommandResult>
