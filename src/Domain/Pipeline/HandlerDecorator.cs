@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using FluentValidation;
     using FluentValidation.Results;
+    using log4net;
     using MediatR;
     using MediatR.Pipeline;
 
@@ -13,6 +14,8 @@
         IRequestHandler<TRequest, TResponse>
             where TRequest : class, IRequest<TResponse>
     {
+        static readonly ILog Log = LogManager.GetLogger("Pipeline");
+
         readonly IRequestHandler<TRequest, TResponse> inner;
         readonly IEnumerable<IValidator<TRequest>> validators;
         readonly IEnumerable<IRequestPreProcessor<TRequest>> preProcessors;
@@ -34,6 +37,8 @@
             TRequest request,
             CancellationToken cancellationToken)
         {
+            Log.Debug($"Start {request.GetType().FullName}");
+
             foreach (IRequestPreProcessor<TRequest> preProcessor in preProcessors)
             {
                 await preProcessor.Process(request, cancellationToken);
@@ -63,6 +68,8 @@
                         .GetNotifications()
                         .Select(n => mediator.Publish(n, cancellationToken)));
             }
+
+            Log.Debug($"Done {request.GetType().FullName}");
 
             return result;
         }

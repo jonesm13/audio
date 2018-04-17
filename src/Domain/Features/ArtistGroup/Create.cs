@@ -38,7 +38,7 @@
 
             bool NotAlreadyExist(string arg)
             {
-                return db.ArtistGroups.Any(x => x.Name.Equals(arg));
+                return !db.ArtistGroups.Any(x => x.Name.Equals(arg));
             }
 
             bool Exist(string arg)

@@ -32,7 +32,7 @@
 
             bool NotExist(string arg)
             {
-                return db.Artists.Any(x => x.Name.Equals(arg));
+                return !db.Artists.Any(x => x.Name.Equals(arg));
             }
         }
 
