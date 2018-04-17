@@ -42,7 +42,7 @@
                 Category category = db.Categories
                     .AsNoTracking()
                     .ToList()
-                    .FindNode(arg, x => x.Id, x => x.ParentId, x => x.Name);
+                    .FindNode(arg);
 
                 return category != null;
             }
@@ -68,7 +68,7 @@
                 Category category = Db.Categories
                     .AsNoTracking()
                     .ToList()
-                    .FindNode(request.Category, x => x.Id, x => x.ParentId, x => x.Name);
+                    .FindNode(request.Category);
 
                 Category cat = item.Categories
                     .Single(x => x.Id == category.Id);

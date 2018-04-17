@@ -43,7 +43,7 @@
                 Category category = db.Categories
                     .AsNoTracking()
                     .ToList()
-                    .FindNode(arg, x => x.Id, x => x.ParentId, x => x.Name);
+                    .FindNode(arg);
 
                 return category != null;
             }
@@ -65,11 +65,7 @@
                 List<Category> categories = await Db.Categories
                     .ToListAsync();
 
-                Category category = categories.FindNode(
-                    request.Category,
-                    x => x.Id,
-                    x => x.ParentId,
-                    x => x.Name);
+                Category category = categories.FindNode(request.Category);
 
                 AudioItem item = await Db.Audio
                     .SingleAsync(x => x.Id == request.Id);

@@ -83,7 +83,7 @@
                     .ToListAsync(cancellationToken);
 
                 return arg
-                    .Select(s => cats.FindNode(s, x => x.Id, x => x.ParentId, x => x.Name))
+                    .Select(s => cats.FindNode(s))
                     .All(node => node != null);
             }
 
@@ -147,8 +147,7 @@
 
                     foreach (string path in request.Categories)
                     {
-                        Category cat = categories
-                            .FindNode(path, x => x.Id, x => x.ParentId, x => x.Name);
+                        Category cat = categories.FindNode(path);
 
                         newItem.Categories.Add(cat);
                     }

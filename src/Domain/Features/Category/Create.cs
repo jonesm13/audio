@@ -61,11 +61,7 @@
                     "/",
                     split.Take(split.Length - 1));
 
-                Category parentNode = categories.FindNode(
-                    parentPath,
-                    c => c.Id,
-                    c => c.ParentId,
-                    c => c.Name);
+                Category parentNode = categories.FindNode(parentPath);
 
                 return parentNode != null;
             }
@@ -94,11 +90,7 @@
                     "/",
                     pathSplit.Take(pathSplit.Length - 1));
 
-                Category parent = categories.FindNode(
-                    parentPath,
-                    x => x.Id,
-                    x => x.ParentId,
-                    x => x.Name);
+                Category parent = categories.FindNode(parentPath);
 
                 Db.Categories.Add(new Category
                 {
