@@ -81,6 +81,7 @@
     <Compile Include="Aspects\Pagination\PaginationExtensions.cs" />
     <Compile Include="Features\ArtistGroup\Controller.cs" />
     <Compile Include="Features\ArtistGroup\Create.cs" />
+    <Compile Include="Features\ArtistGroup\Index.cs" />
     <Compile Include="Features\Artist\Controller.cs" />
     <Compile Include="Features\Artist\Create.cs" />
     <Compile Include="Features\Artist\Index.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Helpers\HierarchyHelpers.cs" />
     <Compile Include="Helpers\SequentualGuid.cs" />
+    <Compile Include="Helpers\ValidationHelpers.cs" />
     <Compile Include="Pipeline\CommandResult.cs" />
     <Compile Include="Pipeline\EntityFrameworkCommandHandler.cs" />
     <Compile Include="Pipeline\HandlerDecorator.cs" />

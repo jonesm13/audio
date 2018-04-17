@@ -83,6 +83,10 @@
     <Compile Include="Migrations\201804101456524_AddingPlayRestriction.Designer.cs">
       <DependentUpon>201804101456524_AddingPlayRestriction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804170905491_AddingUniqueIdxOnArtistName.cs" />
+    <Compile Include="Migrations\201804170905491_AddingUniqueIdxOnArtistName.Designer.cs">
+      <DependentUpon>201804170905491_AddingUniqueIdxOnArtistName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -111,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804101456524_AddingPlayRestriction.resx">
       <DependentUpon>201804101456524_AddingPlayRestriction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804170905491_AddingUniqueIdxOnArtistName.resx">
+      <DependentUpon>201804170905491_AddingUniqueIdxOnArtistName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
