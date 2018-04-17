@@ -29,7 +29,7 @@
             }
             catch (FormatException)
             {
-                return new AudioFileDetails(AudioFormat.Unknown, TimeSpan.Zero);
+                return AudioFileDetails.Unknown;
             }
 
             return new AudioFileDetails(format, duration);

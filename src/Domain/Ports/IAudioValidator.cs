@@ -9,6 +9,8 @@
 
     public class AudioFileDetails
     {
+        public static readonly AudioFileDetails Unknown = new AudioFileDetails(AudioFormat.Unknown, TimeSpan.Zero);
+
         public AudioFormat Format { get; }
         public TimeSpan Duration { get; }
 

@@ -81,6 +81,7 @@
     <Compile Include="Aspects\Pagination\PaginationExtensions.cs" />
     <Compile Include="Features\ArtistGroup\Controller.cs" />
     <Compile Include="Features\ArtistGroup\Create.cs" />
+    <Compile Include="Features\ArtistGroup\Detail.cs" />
     <Compile Include="Features\ArtistGroup\Index.cs" />
     <Compile Include="Features\Artist\Controller.cs" />
     <Compile Include="Features\Artist\Create.cs" />

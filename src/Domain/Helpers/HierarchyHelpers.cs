@@ -11,7 +11,10 @@
             this IEnumerable<Category> categories,
             string path)
         {
-            return categories.FindNode(path, x => x.Id, x => x.ParentId,
+            return categories.FindNode(
+                path,
+                x => x.Id,
+                x => x.ParentId,
                 x => x.Name);
         }
 
