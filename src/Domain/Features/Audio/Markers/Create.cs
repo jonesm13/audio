@@ -12,12 +12,33 @@
     using MediatR;
     using Pipeline;
 
+    public static class MarkerTypes
+    {
+        public static string[] KnownTypes = new[]
+        {
+            "introStart",
+            "introEnd",
+            "hookStart",
+            "hookEnd",
+            "segue",
+            "command"
+        };
+
+        public static string BuildCustomTypeName(string name)
+        {
+            return $"{CustomPrefix}{name}";
+        }
+
+        public static string CustomPrefix = "Custom:";
+    }
+
     public class Create
     {
         public class Command : IRequest<CommandResult>
         {
             public Guid Id { get; set; }
             public long Offset { get; set; }
+            public string Type { get; set; }
         }
 
         public class Validation : AbstractValidator<Command>
@@ -27,11 +48,28 @@
             public Validation(AudioDbContext db)
             {
                 this.db = db;
+
                 RuleFor(x => x.Id)
                     .Must(Exist);
 
                 RuleFor(x => x.Offset)
                     .MustAsync(BeWithinAudioBounds);
+
+                RuleFor(x => x)
+                    .MustAsync(NotExistAlready);
+            }
+
+            async Task<bool> NotExistAlready(
+                Command arg,
+                CancellationToken cancellationToken)
+            {
+                AudioItem item = await db.Audio
+                    .AsNoTracking()
+                    .Include(x => x.Markers)
+                    .SingleAsync(x => x.Id == arg.Id, cancellationToken);
+
+                return !item.Markers
+                    .Any(x => x.Offset == arg.Offset && x.Type == arg.Type);
             }
 
             bool Exist(Guid arg)
@@ -62,10 +100,15 @@
                 AudioItem item = await Db.Audio
                     .SingleAsync(x => x.Id == request.Id);
 
+                string type = MarkerTypes.KnownTypes.Contains(request.Type) ?
+                    request.Type :
+                    MarkerTypes.BuildCustomTypeName(request.Type);
+
                 item.Markers.Add(new Marker
                 {
                     Id = SequentualGuid.New(),
-                    Offset = request.Offset
+                    Offset = request.Offset,
+                    Type = type
                 });
 
                 return CommandResult.Void;
