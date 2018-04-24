@@ -87,6 +87,14 @@
     <Compile Include="Migrations\201804170905491_AddingUniqueIdxOnArtistName.Designer.cs">
       <DependentUpon>201804170905491_AddingUniqueIdxOnArtistName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804240720516_DurationIntToLong.cs" />
+    <Compile Include="Migrations\201804240720516_DurationIntToLong.Designer.cs">
+      <DependentUpon>201804240720516_DurationIntToLong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804240856591_AddingMarkerIndex.cs" />
+    <Compile Include="Migrations\201804240856591_AddingMarkerIndex.Designer.cs">
+      <DependentUpon>201804240856591_AddingMarkerIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -118,6 +126,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804170905491_AddingUniqueIdxOnArtistName.resx">
       <DependentUpon>201804170905491_AddingUniqueIdxOnArtistName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804240720516_DurationIntToLong.resx">
+      <DependentUpon>201804240720516_DurationIntToLong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804240856591_AddingMarkerIndex.resx">
+      <DependentUpon>201804240856591_AddingMarkerIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

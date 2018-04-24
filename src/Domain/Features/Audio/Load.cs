@@ -137,7 +137,7 @@
                     Id = id,
                     Flags = AudioItemFlags.None,
                     Title = title,
-                    Duration = (int)request.Details.Duration.TotalMilliseconds,
+                    Duration = (long)request.Details.Duration.TotalMilliseconds,
                 };
 
                 if (request.Categories.Any())

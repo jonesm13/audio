@@ -17,7 +17,7 @@
 
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public int Duration { get; set; }
+        public long Duration { get; set; }
         public AudioItemFlags Flags { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }

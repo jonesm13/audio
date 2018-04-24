@@ -35,6 +35,10 @@
         {
             GlobalConfiguration.Configuration.UseSqlServerStorage("audio-db");
 
+            GlobalConfiguration.Configuration.UseActivator(
+                new SimpleInjectorJobActivator(
+                    BackgroundJobContainerFactory.Create()));
+
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
@@ -112,6 +116,76 @@
             {
                 yield return Assembly.GetExecutingAssembly();
             }
+        }
+    }
+
+    public class SimpleInjectorJobActivator : JobActivator
+    {
+        readonly Container container;
+
+        readonly Lifestyle lifestyle;
+
+        public SimpleInjectorJobActivator(Container container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            this.container = container;
+        }
+
+        public SimpleInjectorJobActivator(Container container, Lifestyle lifestyle)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            if (lifestyle == null)
+            {
+                throw new ArgumentNullException(nameof(lifestyle));
+            }
+
+            this.container = container;
+            this.lifestyle = lifestyle;
+        }
+
+        public override object ActivateJob(Type jobType)
+        {
+            return container.GetInstance(jobType);
+        }
+
+        public override JobActivatorScope BeginScope(JobActivatorContext context)
+        {
+            if (lifestyle == null || lifestyle != Lifestyle.Scoped)
+            {
+                return new SimpleInjectorScope(container, AsyncScopedLifestyle.BeginScope(container));
+            }
+
+            return new SimpleInjectorScope(container, Lifestyle.Scoped.GetCurrentScope(container));
+        }
+    }
+
+    class SimpleInjectorScope : JobActivatorScope
+    {
+        readonly Container container;
+        readonly Scope scope;
+
+        public SimpleInjectorScope(Container container, Scope scope)
+        {
+            this.container = container;
+            this.scope = scope;
+        }
+
+        public override object Resolve(Type type)
+        {
+            return container.GetInstance(type);
+        }
+
+        public override void DisposeScope()
+        {
+            scope?.Dispose();
         }
     }
 }

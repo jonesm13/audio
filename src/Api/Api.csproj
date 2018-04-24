@@ -131,9 +131,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\IoC\BackgroundJobContainerFactory.cs" />
     <Compile Include="App_Start\IoC\ContainerFactory.cs" />
     <Compile Include="App_Start\IAppBuilderExtensions.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="BackgroundTasks\CreateRender.cs" />
     <Compile Include="CustomExceptionHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
