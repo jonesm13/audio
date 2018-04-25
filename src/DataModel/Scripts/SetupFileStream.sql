@@ -11,7 +11,7 @@ GO
 ALTER DATABASE [audio_db]
     ADD FILE (
         NAME = N'audio_files',
-        FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\audio_files')
+        FILENAME = N'C:\audioStore')
     TO FILEGROUP [audio_files_group]
 GO
 

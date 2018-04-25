@@ -115,5 +115,44 @@
                 }
             }
         }
+
+        public Task<Stream> Get(Guid id)
+        {
+            const string getPathSql = @"SELECT [Data].PathName(),
+                GET_FILESTREAM_TRANSACTION_CONTEXT()
+                FROM AudioFile
+                WHERE Id = @id;";
+
+            string connectionString = ConfigurationManager
+                .ConnectionStrings["audio-db"]
+                .ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                using (SqlTransaction txn = conn.BeginTransaction())
+                {
+                    byte[] serverTxn;
+                    string serverPath;
+
+                    using (SqlCommand cmd = new SqlCommand(getPathSql, conn))
+                    {
+                        cmd.Transaction = txn;
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+
+                            serverPath = rdr.GetSqlString(0).Value;
+                            serverTxn = rdr.GetSqlBinary(1).Value;
+                        }
+                    }
+                }
+            }
+
+            return new Task<Stream>(() => new MemoryStream());
+        }
     }
 }
