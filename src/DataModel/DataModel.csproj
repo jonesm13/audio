@@ -138,7 +138,7 @@
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\SetupFileStream.sql" />
+    <Content Include="Scripts\BootstrapDb.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
