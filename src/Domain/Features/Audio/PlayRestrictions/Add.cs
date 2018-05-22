@@ -5,10 +5,11 @@
     using DataModel.Entities;
     using FluentValidation;
     using MediatR;
+    using Pipeline;
 
     public class Add
     {
-        public class Command : IRequest<Command>
+        public class Command : IRequest<CommandResult>
         {
             public Guid Id { get; set; }
             public string[] Days { get; set; }
